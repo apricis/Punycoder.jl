@@ -32,11 +32,13 @@ function encode(input)
   encoded_string = getbasicstring(input)
   inputLength = length(input)
   h = b = length(encoded_string)
-  if h != inputLength
+  if h > 0 && h != inputLength
     encoded_string *= "-"
   end # if
+  input = collect(input)
   while h < inputLength
-    m = input[findfirst(x->!isascii(x) && x >= n, input)]
+    m = minimum(filter(x->!isascii(x) && x >= n, input))
+    println(m)
     delta += Int(m - n) * (h + 1)
     n = m
     for c in input
@@ -57,7 +59,9 @@ function encode(input)
           end
           encoded_string = string(encoded_string, code_points[t + 1 + ((q - t) % (base - t))])
           q = div((q - t), (base - t))
+          println("q, $q")
         end # for
+        println("q1: $q")
         encoded_string = string(encoded_string, code_points[q + 1])
         bias = adapt(delta, h + 1, h == b)
         delta = 0
