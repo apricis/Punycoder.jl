@@ -32,7 +32,7 @@ function encode(input)
   encoded_string = getbasicstring(input)
   inputLength = length(input)
   h = b = length(encoded_string)
-  if h > 0 && h != inputLength
+  if h > 0
     encoded_string *= "-"
   end # if
   input = collect(input)
